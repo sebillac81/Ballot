@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { ethers } from "hardhat";
 import { Ballot } from "../typechain-types";
+import { randomInt } from "crypto";
 
 const PROPOSALS = ["Proposal 1", "Proposal 2", "Proposal 3"];
 
@@ -162,7 +163,6 @@ describe("Ballot", function () {
 
   describe("when someone interact with the winnerName function after one vote is cast for the first proposal", function () {
     it("should return name of proposal 0", async () => {
-      const accounts = await ethers.getSigners();
       await ballotContract.vote(0);
 
       expect((ethers.utils.parseBytes32String(await ballotContract.winnerName()))).to.equal("Proposal 1");
@@ -171,7 +171,22 @@ describe("Ballot", function () {
 
   describe("when someone interact with the winningProposal function and winnerName after 5 random votes are cast for the proposals", function () {
     it("should return the name of the winner proposal", async () => {
-      
+      const accounts = await ethers.getSigners();
+      let winnerName: String;
+      let winningProposal;
+      for (let i = 0; i < 4; i++) {
+        await ballotContract
+        .giveRightToVote(accounts[i+1].address);
+
+        await ballotContract
+        .connect(accounts[i+1])
+        .vote(randomInt(3))
+      } 
+
+      winningProposal = PROPOSALS[(await ballotContract.winningProposal()).toNumber()];
+      winnerName = ethers.utils.parseBytes32String(await ballotContract.winnerName());
+
+      expect((winnerName)).to.equal(winningProposal);
     });
   });
 });
