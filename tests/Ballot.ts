@@ -34,31 +34,47 @@ describe("Ballot", function () {
     });
 
     it("has zero votes for all proposals", async function () {
-      // TODO
-      throw Error("Not implemented");
+      for (let index = 0; index < PROPOSALS.length; index++) {
+        const proposal = await ballotContract.proposals(index);
+        expect(proposal.voteCount).to.eq(0);
+      }
     });
+
     it("sets the deployer address as chairperson", async function () {
-      // TODO
-      throw Error("Not implemented");
+      const accounts = await ethers.getSigners();
+      const chairPerson = await ballotContract.chairperson();
+      expect(chairPerson).to.equal(accounts[0].address);
     });
+
     it("sets the voting weight for the chairperson as 1", async function () {
-      // TODO
-      throw Error("Not implemented");
+      const chairPerson = await ballotContract.chairperson();
+      expect((await ballotContract.voters(chairPerson)).weight).to.equal(1);
     });
   });
 
   describe("when the chairperson interacts with the giveRightToVote function in the contract", function () {
     it("gives right to vote for another address", async function () {
-      // TODO
-      throw Error("Not implemented");
+      const accounts = await ethers.getSigners();
+      ballotContract.giveRightToVote(accounts[1].address);
+      expect((await ballotContract.voters(accounts[1].address)).weight).to.equal(1);
     });
+
     it("can not give right to vote for someone that has voted", async function () {
-      // TODO
-      throw Error("Not implemented");
+      const accounts = await ethers.getSigners();
+      ballotContract.giveRightToVote(accounts[1].address);
+
+      await ballotContract
+        .connect(accounts[1])
+        .vote(0);
+
+        // console.log((await ballotContract.voters(accounts[1].address)).voted);
+      expect((ballotContract.giveRightToVote(accounts[1].address))).to.be.revertedWith("The voter already voted.");
     });
+
     it("can not give right to vote for someone that has already voting rights", async function () {
-      // TODO
-      throw Error("Not implemented");
+            const accounts = await ethers.getSigners();
+      ballotContract.giveRightToVote(accounts[1].address);
+      expect(ballotContract.giveRightToVote(accounts[1].address)).to.be.reverted;
     });
   });
 
