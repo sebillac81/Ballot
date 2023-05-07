@@ -79,9 +79,15 @@ describe("Ballot", function () {
   });
 
   describe("when the voter interact with the vote function in the contract", function () {
-    // TODO
     it("should register the vote", async () => {
-      throw Error("Not implemented");
+      const accounts = await ethers.getSigners();
+      ballotContract.giveRightToVote(accounts[1].address);
+
+      await ballotContract
+        .connect(accounts[1])
+        .vote(0);
+
+      expect((await ballotContract.voters(accounts[1].address)).voted).to.be.true;
     });
   });
 
