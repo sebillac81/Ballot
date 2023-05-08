@@ -130,15 +130,15 @@ describe("Ballot", function () {
   });
 
   //fail
-  // describe("when the an attacker interact with the delegate function in the contract", function () {
-  //   it("should revert", async () => {
-  //     const accounts = await ethers.getSigners();
+  describe("when the an attacker interact with the delegate function in the contract", function () {
+    it("should revert", async () => {
+      const accounts = await ethers.getSigners();
 
-  //     expect(await ballotContract
-  //       .delegate(accounts[0].address))
-  //       .to.be.revertedWith("Self-delegation is disallowed.");
-  //   });
-  // });
+      expect(await ballotContract
+        .delegate(accounts[0].address))
+        .to.be.revertedWith("Self-delegation is disallowed.");
+    });
+  });
 
   describe("when someone interact with the winningProposal function before any votes are cast", function () {
     it("should return 0", async () => {
