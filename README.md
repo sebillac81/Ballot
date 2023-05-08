@@ -5,9 +5,7 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 Try running some of the following tasks:
 
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+yarn hardhat compile
+yarn hardhat test
+yarn run ts-node --files .\scripts\Deployment.ts Proposal1 Proposal2 Proposal3
 ```
