@@ -109,8 +109,6 @@ describe("Ballot", function () {
     it("should revert", async () => {
       const accounts = await ethers.getSigners();
 
-      // console.log(await ballotContract.chairperson());
-      // console.log(accounts[0].address);
       expect(await ballotContract
         .connect(accounts[0])
         .giveRightToVote(accounts[2].address))
@@ -130,11 +128,11 @@ describe("Ballot", function () {
   });
 
   //fail
-  describe.skip("when the an attacker interact with the delegate function in the contract", function () {
+  describe("when the an attacker interact with the delegate function in the contract", function () {
     it("should revert", async () => {
       const accounts = await ethers.getSigners();
 
-      expect(await ballotContract
+      await expect(ballotContract
         .delegate(accounts[0].address))
         .to.be.revertedWith("Self-delegation is disallowed.");
     });
