@@ -68,7 +68,6 @@ describe("Ballot", function () {
         .connect(accounts[1])
         .vote(0);
 
-        // console.log((await ballotContract.voters(accounts[1].address)).voted);
       expect((ballotContract.giveRightToVote(accounts[1].address))).to.be.revertedWith("The voter already voted.");
     });
 
@@ -127,7 +126,6 @@ describe("Ballot", function () {
     });
   });
 
-  //fail
   describe("when the an attacker interact with the delegate function in the contract", function () {
     it("should revert", async () => {
       const accounts = await ethers.getSigners();
